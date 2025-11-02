@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>B/W → Colour (Turbo • WebGL)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Black & White → Colour (Turbo)</h1>
+    <p class="sub">GPU accelerated with WebGL • super fast • no installs • GitHub Pages ready</p>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="uploader">
+        <input id="fileInput" type="file" accept="video/*" />
+      </div>
+
+      <div class="controls">
+        <div class="row">
+          <label>Mode
+            <select id="mode">
+              <option value="fast" selected>Fast (cap 720p, skip frames)</option>
+              <option value="quality">Quality (cap 1080p)</option>
+            </select>
+          </label>
+
+          <label>Warmth
+            <input id="warm" type="range" min="0" max="100" value="30" />
+          </label>
+
+          <label>Color Boost
+            <input id="sat" type="range" min="0" max="100" value="25" />
+          </label>
+
+          <label>Sharpness
+            <input id="sharp" type="range" min="0" max="100" value="20" />
+          </label>
+
+          <button id="startBtn" disabled>▶ Start</button>
+          <button id="stopBtn" disabled>■ Stop</button>
+        </div>
+        <details class="help">
+          <summary>How it stays fast</summary>
+          <ul>
+            <li>All color work runs in a single WebGL shader (GPU).</li>
+            <li>Resolution capped + optional frame skipping.</li>
+            <li>No recording/encoding while previewing.</li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="stage">
+        <div class="panel2">
+          <h3>Original</h3>
+          <video id="vid" controls playsinline></video>
+        </div>
+        <div class="panel2">
+          <h3>Turbo Colour Preview (GPU)</h3>
+          <canvas id="glcanvas"></canvas>
+        </div>
+      </div>
+
+      <p id="status" class="status">Load a video to begin…</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Shader pipeline: grayscale detect → HSL recolour gradient → saturation boost → mild unsharp (5‑tap) → gamma.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
