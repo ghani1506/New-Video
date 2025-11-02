@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modernise B/W Video — In‑Browser Coloriser (V2)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.9.0-1/opencv.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Modernise B/W Video — Colorise, Enhance & Export (V2)</h1>
+    <p class="sub">Runs entirely in your browser with OpenCV.js. Upload a video, preview, then export.</p>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="uploader">
+        <input id="fileInput" type="file" accept="video/*" />
+      </div>
+
+      <div class="controls">
+        <div class="row">
+          <label>Resolution
+            <select id="scale">
+              <option value="1">Keep original</option>
+              <option value="1.5">1.5× upscale</option>
+              <option value="2" selected>2× upscale</option>
+            </select>
+          </label>
+
+          <label>Color Boost
+            <input id="sat" type="range" min="0" max="100" value="25" />
+          </label>
+
+          <label>Sharpness
+            <input id="sharp" type="range" min="0" max="100" value="35" />
+          </label>
+
+          <label>De-noise
+            <input id="denoise" type="range" min="0" max="100" value="15" />
+          </label>
+
+          <label>Warmth
+            <input id="warm" type="range" min="0" max="40" value="8" />
+          </label>
+
+          <button id="startBtn" disabled>▶ Start</button>
+          <button id="stopBtn" disabled>■ Stop</button>
+          <button id="recBtn" disabled>● Record</button>
+          <a id="dlBtn" class="btn" download="colorised.webm" aria-disabled="true">Download</a>
+        </div>
+        <details class="help">
+          <summary>Tips</summary>
+          <ul>
+            <li>Use default settings first. Adjust Color Boost and Warmth to taste.</li>
+            <li>Recording produces <b>WebM</b> (VP9/VP8). Convert to MP4 with HandBrake or ffmpeg.</li>
+            <li>iOS Safari usually cannot record WebM — preview still works.</li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="stage">
+        <div class="panel2">
+          <h3>Original</h3>
+          <video id="vid" controls playsinline></video>
+        </div>
+        <div class="panel2">
+          <h3>Colorised Preview</h3>
+          <canvas id="out"></canvas>
+        </div>
+      </div>
+
+      <p id="status" class="status">Loading OpenCV.js…</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Pipeline: CLAHE → White balance → grayscale detect → LAB recolour + temporal smoothing → denoise → unsharp → saturation → upscale.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
